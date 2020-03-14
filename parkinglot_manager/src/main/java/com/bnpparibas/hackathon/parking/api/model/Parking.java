@@ -35,7 +35,7 @@ public class Parking {
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	public long getId() {
 		return id;
 	}

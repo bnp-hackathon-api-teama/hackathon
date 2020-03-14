@@ -87,6 +87,9 @@ public class ParkingControllerTest {
 		assertThat(returnedParkingLot.getHeight()).isEqualTo(1801);
 		assertThat(returnedParkingLot.getWidth()).isEqualTo(1001);
 		assertThat(returnedParkingLot.getId()).isEqualTo(1);
+		
+		assertThat(returnedParkingLot.getParking().getName()).isEqualTo("Edificio");
+		assertThat(returnedParkingLot.getParking().getId()).isEqualTo(0);
 	}
 	
 

@@ -110,16 +110,17 @@ public class ParkingControllerTest {
 		assertThat(returnedParkingLot.getParking().getId()).isEqualTo(1);
 	}
 	
-	//@Test
+	@Test
 	public void testGetParkingById() {
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(new MockHttpServletRequest()));
 
-		when(parkingRepository.findById(eq(1L))).thenReturn(Optional.of(parking1));
-
+		when(parkingRepository.findById(eq(2L))).thenReturn(Optional.of(parking2));
+		when(parkingRepository.getOne(eq(2L))).thenReturn(parking2);
+		
 		// when...
 		ResponseEntity<Parking> responseEntity;
 		try {
-			responseEntity = parkingController.getParkingById(1L);
+			responseEntity = parkingController.getParkingById(2L);
 		} catch (ResourceNotFoundException e) {
 			fail("Unexpected exception, parking not found.");
 			return;
@@ -129,8 +130,8 @@ public class ParkingControllerTest {
 		Parking returnedParking = responseEntity.getBody();
 
 		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
-		assertThat(returnedParking.getName()).isEqualTo("Edificio 1");
-		assertThat(returnedParking.getId()).isEqualTo(1);
+		assertThat(returnedParking.getName()).isEqualTo("Edificio 2");
+		assertThat(returnedParking.getId()).isEqualTo(2);
 
 
 		

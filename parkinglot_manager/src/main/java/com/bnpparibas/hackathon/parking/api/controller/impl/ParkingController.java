@@ -5,17 +5,14 @@ import com.bnpparibas.hackathon.parking.api.model.Parking;
 import com.bnpparibas.hackathon.parking.api.model.ParkingLot;
 import com.bnpparibas.hackathon.parking.api.repository.ParkingLotRepository;
 import com.bnpparibas.hackathon.parking.api.repository.ParkingRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.bnpparibas.hackathon.parking.api.controller.ParkingControllerAPI;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalLong;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -82,8 +79,12 @@ public class ParkingController implements ParkingControllerAPI{
     }
 
     @Override
+    @GetMapping("/parking-lots/{id}")
     public ResponseEntity<ParkingLot> getParkingLotById(Long parkingLotId) throws ResourceNotFoundException {
-        return null;
+    	
+    	ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId)
+				.orElseThrow(() -> new ResourceNotFoundException("ParkingLot not found {id : " + parkingLotId +"}"));
+		return ResponseEntity.ok().body(parkingLot);
     }
 
     @Override

@@ -5,11 +5,9 @@ import com.bnpparibas.hackathon.parking.api.model.Parking;
 import com.bnpparibas.hackathon.parking.api.model.ParkingLot;
 import com.bnpparibas.hackathon.parking.api.repository.ParkingLotRepository;
 import com.bnpparibas.hackathon.parking.api.repository.ParkingRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.bnpparibas.hackathon.parking.api.controller.ParkingControllerAPI;
 
@@ -65,8 +63,17 @@ public class ParkingController implements ParkingControllerAPI{
     }
 
     @Override
-    public ResponseEntity<Parking> getParkingByBuilding(String building) throws ResourceNotFoundException {
-        return null;
+    @GetMapping("/parkings")
+    public ResponseEntity<Parking> getParkingByBuilding(@RequestParam String building) throws ResourceNotFoundException {
+        
+        Optional<Parking> byBuilding = Optional.ofNullable(parkingRepository.findByBuilding(building));
+        if (byBuilding.isPresent()){
+            return ResponseEntity.of(byBuilding);
+        } else {
+            throw new ResourceNotFoundException("Parking not found");
+        }
+
+
     }
 
     @Override

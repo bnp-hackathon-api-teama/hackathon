@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,6 +29,11 @@ import com.bnpparibas.hackathon.parking.api.repository.ParkingRepository;
 
 @ExtendWith(SpringExtension.class)
 public class ParkingControllerTest {
+	protected Parking parking1;
+	protected Parking parking2;
+	protected ParkingLot parkingLot1;
+	protected ParkingLot parkingLot2;
+	
 	
 	@InjectMocks
 	private ParkingController parkingController;
@@ -37,33 +43,45 @@ public class ParkingControllerTest {
 	@Mock
 	private ParkingLotRepository parkingLotRepository;
 	
-	@Test
-	public void testGetParkingLotById() {
+	@BeforeEach
+	protected void setUp() throws Exception {
+        System.out.println("Setting it up!");
 		// Given conditions		
-		Parking parking = new Parking();
-		parking.setBuilding("1");
-		parking.setId(0);
-		parking.setName("Edificio");
-		parking.setParkingLot(new ArrayList<ParkingLot>());
+		parking1 = new Parking();
+		parking1.setBuilding("1");
+		parking1.setId(1);
+		parking1.setName("Edificio 1");
+		parking1.setParkingLot(new ArrayList<ParkingLot>());
 		
+		parking2 = new Parking();
+		parking2.setBuilding("2");
+		parking2.setId(2);
+		parking2.setName("Edificio 2");
+		parking2.setParkingLot(new ArrayList<ParkingLot>());
+
 		
-		ParkingLot parkingLot1 = new ParkingLot();
+		parkingLot1 = new ParkingLot();
 		parkingLot1.setId(1);
 		parkingLot1.setFloor(1);
 		parkingLot1.setHeight(1801);
-		parkingLot1.setParking(parking);
+		parkingLot1.setParking(parking1);
 		parkingLot1.setWidth(1001);
 		
-		ParkingLot parkingLot2 = new ParkingLot();
+		parking1.getParkingLot().add(parkingLot1);
+		parking1.getParkingLot().add(parkingLot2);
+		
+		parkingLot2 = new ParkingLot();
 		parkingLot2.setId(2);
 		parkingLot2.setFloor(2);
 		parkingLot2.setHeight(1802);
-		parkingLot2.setParking(parking);
+		parkingLot2.setParking(parking1);
 		parkingLot2.setWidth(1002);
 		
-		parking.getParkingLot().add(parkingLot1);
-		parking.getParkingLot().add(parkingLot2);
-
+    }
+     
+	
+	@Test
+	public void testGetParkingLotById() {
 
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(new MockHttpServletRequest()));
 
@@ -74,7 +92,7 @@ public class ParkingControllerTest {
 		try {
 			responseEntity = parkingController.getParkingLotById(1L);
 		} catch (ResourceNotFoundException e) {
-			fail("Unexpected exception, employee not found.");
+			fail("Unexpected exception, parking lot not found.");
 			return;
 		}
 
@@ -88,9 +106,37 @@ public class ParkingControllerTest {
 		assertThat(returnedParkingLot.getWidth()).isEqualTo(1001);
 		assertThat(returnedParkingLot.getId()).isEqualTo(1);
 		
-		assertThat(returnedParkingLot.getParking().getName()).isEqualTo("Edificio");
-		assertThat(returnedParkingLot.getParking().getId()).isEqualTo(0);
+		assertThat(returnedParkingLot.getParking().getName()).isEqualTo("Edificio 1");
+		assertThat(returnedParkingLot.getParking().getId()).isEqualTo(1);
 	}
+	
+	//@Test
+	public void testGetParkingById() {
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(new MockHttpServletRequest()));
+
+		when(parkingRepository.findById(eq(1L))).thenReturn(Optional.of(parking1));
+
+		// when...
+		ResponseEntity<Parking> responseEntity;
+		try {
+			responseEntity = parkingController.getParkingById(1L);
+		} catch (ResourceNotFoundException e) {
+			fail("Unexpected exception, parking not found.");
+			return;
+		}
+		
+		// then the outcome is validated
+		Parking returnedParking = responseEntity.getBody();
+
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
+		assertThat(returnedParking.getName()).isEqualTo("Edificio 1");
+		assertThat(returnedParking.getId()).isEqualTo(1);
+
+
+		
+	}
+
+	
 	
 
 }

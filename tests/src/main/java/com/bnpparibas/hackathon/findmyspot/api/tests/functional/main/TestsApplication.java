@@ -1,22 +1,20 @@
-package com.bnpparibas.hackathon.employee.api;
+package com.bnpparibas.hackathon.findmyspot.api.tests.functional.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class Application {
+public class TestsApplication {
 
-
-	
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
-	}
-	
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(TestsApplication.class, args);
 	}
+	
+	   @Bean
+	    public RestTemplate getRestTemplate(){
+	    	return new RestTemplate();
+	    }
+
 }

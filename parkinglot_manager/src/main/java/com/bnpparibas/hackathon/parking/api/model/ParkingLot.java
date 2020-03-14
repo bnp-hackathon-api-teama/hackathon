@@ -1,17 +1,12 @@
 package com.bnpparibas.hackathon.parking.api.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "parking_lot")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ParkingLot {
 	
 	private long id;
@@ -19,16 +14,19 @@ public class ParkingLot {
 	private int floor;
 	private int width;
 	private int height;
+	private boolean available;
+	private String newAttr;
 	private Parking parking;
 	
 	public ParkingLot() {}
 	
-	public ParkingLot(String aliasLotId, int floor, int width, int height, Parking parking) {
+	public ParkingLot(String aliasLotId, int floor, int width, int height, Parking parking, boolean available) {
 		this.aliasLotId = aliasLotId;
 		this.floor = floor;
 		this.width = width;
 		this.height = height;
 		this.parking = parking;
+		this.available = available;
 	}
 
 	@Id
@@ -76,14 +74,20 @@ public class ParkingLot {
 		this.height = height;
 	}
 
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY,optional = false)
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER,optional = false)
 	public Parking getParking() {
 		return parking;
 	}
 
 	public void setParking(Parking parking) {
 		this.parking = parking;
-	} 
-	
-	
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
 }

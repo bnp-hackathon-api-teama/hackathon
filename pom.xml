@@ -23,12 +23,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<sonar.projectKey>#SONAR.PROJECTKEY#</sonar.projectKey>
-		<sonar.organization>#SONAR.ORGANIZATION#</sonar.organization>
+		<sonar.projectKey>bnp-hackathon-api-teama</sonar.projectKey>
+		<sonar.organization>bnp-hackathon-api-teama</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.login>#SONAR.LOGINTOKEN#</sonar.login>
-		<heroku.employee.applicationName>#HEROKU_EMPLOYEE_APPLICATION#</heroku.employee.applicationName>
-		<heroku.parking.applicationName>#HEROKU_PARKING_APPLICATION#</heroku.parking.applicationName>
+		<sonar.login>233e8b03f8d1e9b70ad03d31330d0a5700b47869</sonar.login>
+		<heroku.employee.applicationName>bnp-hackathon-employee-api-tea</heroku.employee.applicationName>
+		<heroku.parking.applicationName>bnp-hackathon-parking-api-tea</heroku.parking.applicationName>
 	</properties>
 
 	<modules>
@@ -36,6 +36,7 @@
 		<module>employee_manager</module>
 		<module>parkinglot_manager</module>
 		<module>find_my_spot</module>
+		<!--<module>tests</module>-->
 	</modules>
 
 	<build>

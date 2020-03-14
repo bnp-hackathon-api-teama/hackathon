@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(value={"/api/v1"})
 public class ParkingController implements ParkingControllerAPI{
 
     private final ParkingRepository parkingRepository;

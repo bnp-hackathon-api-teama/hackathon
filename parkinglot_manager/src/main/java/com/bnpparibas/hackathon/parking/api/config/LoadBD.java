@@ -6,13 +6,16 @@ import org.springframework.context.annotation.Configuration;
 import com.bnpparibas.hackathon.parking.api.model.Parking;
 import com.bnpparibas.hackathon.parking.api.model.ParkingLot;
 import com.bnpparibas.hackathon.parking.api.repository.ParkingLotRepository;
+import com.bnpparibas.hackathon.parking.api.repository.ParkingRepository;
 
 @Configuration
 public class LoadBD implements CommandLineRunner {
 
-	ParkingLotRepository parkingRepository;
-
-    public LoadBD(ParkingLotRepository parkingRepository) {
+	ParkingLotRepository parkingLotRepository;
+	ParkingRepository parkingRepository;
+	
+    public LoadBD(ParkingLotRepository parkingLotRepository, ParkingRepository parkingRepository) {
+        this.parkingLotRepository = parkingLotRepository;
         this.parkingRepository = parkingRepository;
     }
 
@@ -22,6 +25,7 @@ public class LoadBD implements CommandLineRunner {
     	park1.setId(1L);
     	park1.setBuilding("building 1");
     	park1.setName("name 1");
+    	this.parkingRepository.save(park1);
     	
     	ParkingLot parkLot11 = new ParkingLot();
     	parkLot11.setFloor(11);
@@ -30,6 +34,7 @@ public class LoadBD implements CommandLineRunner {
     	parkLot11.setLotId("aliasLotId 11");
     	parkLot11.setWidth(11);
     	parkLot11.setParking(park1);
+    	this.parkingLotRepository.save(parkLot11);
     	
     	ParkingLot parkLot12 = new ParkingLot();
     	parkLot12.setFloor(12);
@@ -37,13 +42,14 @@ public class LoadBD implements CommandLineRunner {
     	parkLot12.setId(12L);
     	parkLot12.setLotId("aliasLotId 12");
     	parkLot12.setWidth(12);
-    	
     	parkLot12.setParking(park1);
+    	this.parkingLotRepository.save(parkLot12);
     	
     	Parking park2 = new Parking();
     	park2.setId(2L);
     	park2.setBuilding("building 2");
     	park2.setName("name 2");
+    	this.parkingRepository.save(park2);
     	
     	ParkingLot parkLot21 = new ParkingLot();
     	parkLot21.setFloor(21);
@@ -52,6 +58,7 @@ public class LoadBD implements CommandLineRunner {
     	parkLot21.setLotId("aliasLotId 21");
     	parkLot21.setWidth(21);
     	parkLot21.setParking(park2);
+    	this.parkingLotRepository.save(parkLot21);
     	
     	ParkingLot parkLot22 = new ParkingLot();
     	parkLot22.setFloor(22);
@@ -59,7 +66,7 @@ public class LoadBD implements CommandLineRunner {
     	parkLot22.setId(22L);
     	parkLot22.setLotId("aliasLotId 22");
     	parkLot22.setWidth(22);
-    	
     	parkLot22.setParking(park2);
+    	this.parkingLotRepository.save(parkLot22);
     }
 }

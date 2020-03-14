@@ -1,5 +1,8 @@
 package com.bnpparibas.hackathon.parking.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,6 +22,8 @@ public class Parking {
 	private long id;
 	private String building;
 	private String name;
+
+	//@JsonIgnore
 	private List<ParkingLot> parkingLot;
 	
 	public Parking() {}
@@ -56,7 +61,7 @@ public class Parking {
 		this.name = name;
 	}
 
-	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	public List<ParkingLot> getParkingLot() {
 		return parkingLot;
 	}

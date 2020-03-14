@@ -1,5 +1,8 @@
 package com.bnpparibas.hackathon.parking.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "parking_lot")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ParkingLot {
 	
 	private long id;
@@ -78,7 +82,7 @@ public class ParkingLot {
 		this.height = height;
 	}
 
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY,optional = false)
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER,optional = false)
 	public Parking getParking() {
 		return parking;
 	}

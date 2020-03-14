@@ -65,7 +65,7 @@ public class ParkingController implements ParkingControllerAPI{
     @Override
     @GetMapping("/parkings")
     public ResponseEntity<Parking> getParkingByBuilding(@RequestParam String building) throws ResourceNotFoundException {
-        
+
         Optional<Parking> byBuilding = Optional.ofNullable(parkingRepository.findByBuilding(building));
         if (byBuilding.isPresent()){
             return ResponseEntity.of(byBuilding);

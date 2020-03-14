@@ -26,4 +26,16 @@ public class StepDefs extends SpringIntegrationTest {
     public void the_client_receives_server_version_body(String version) throws Throwable {
         assertThat(latestResponse.getBody(), is(version));
     }
+    
+	@When("^the user with id (\\d+) asks for an assignment to the building (.+)$")
+	public void the_user_with_id_asks_for_an_assignment_to_the_building(int userId, String building) throws Throwable {
+		executeGet("http://localhost:8080/employee/echo");
+	}
+
+	@Then("^the parking lot result is (.+)$")
+	public void the_parking_lot_result_is(String parkingLotAlias) throws Throwable {
+		executeGet("http://localhost:8080/employee/echo");
+	}
+	
+	
 }

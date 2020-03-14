@@ -11,10 +11,10 @@ import java.util.Optional;
 public class EchoController {
 
     @GetMapping("/echo")
-    public ResponseEntity<String> echo() {
+    public ResponseEntity<LocalDateTime> echo() {
         return ResponseEntity.of(
                 Optional.of(
-                        LocalDateTime.now().toString()
+                        LocalDateTime.now()
                 )
         );
     }

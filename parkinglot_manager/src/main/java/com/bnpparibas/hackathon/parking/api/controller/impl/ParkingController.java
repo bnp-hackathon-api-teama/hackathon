@@ -1,13 +1,102 @@
 package com.bnpparibas.hackathon.parking.api.controller.impl;
 
+import com.bnpparibas.hackathon.commons.api.exception.ResourceNotFoundException;
+import com.bnpparibas.hackathon.parking.api.model.Parking;
+import com.bnpparibas.hackathon.parking.api.model.ParkingLot;
+import com.bnpparibas.hackathon.parking.api.repository.ParkingLotRepository;
+import com.bnpparibas.hackathon.parking.api.repository.ParkingRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bnpparibas.hackathon.parking.api.controller.ParkingControllerAPI;
 
+import javax.validation.Valid;
+import javax.websocket.server.PathParam;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
+
 @RestController
 @RequestMapping("/api/v1")
-public abstract class ParkingController implements ParkingControllerAPI{
+public class ParkingController implements ParkingControllerAPI{
 
-	//TODO Remove abstract keyword and implement relevant methods
+    private final ParkingRepository parkingRepository;
+    private final ParkingLotRepository parkingLotRepository;
+
+    public ParkingController(ParkingRepository parkingRepository, ParkingLotRepository parkingLotRepository) {
+        this.parkingRepository = parkingRepository;
+        this.parkingLotRepository = parkingLotRepository;
+    }
+
+    @Override
+    public ResponseEntity<ParkingLot> updateParkingLot(Long parkingLotId, @Valid ParkingLot parkingLotDetails) throws ResourceNotFoundException {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Parking> updateParking(Long parkingId, @Valid Parking parkingDetails) throws ResourceNotFoundException {
+        return null;
+    }
+
+    @Override
+    public ParkingLot createParkingLot(@Valid ParkingLot parkingLot) {
+        return parkingLotRepository.save(parkingLot);
+    }
+
+    @Override
+    public Parking createParking(@Valid Parking parking) {
+        return parkingRepository.save(parking);
+    }
+
+    @Override
+    @GetMapping("/parkings/{id}")
+    public ResponseEntity<Parking> getParkingById(@PathVariable Long id) throws ResourceNotFoundException {
+        Optional<Parking> parking = parkingRepository.findById(id);
+
+        if (parking.isPresent()) {
+            return ResponseEntity.of(Optional.of(parkingRepository.getOne(id)));
+        } else {
+            throw new ResourceNotFoundException("Parking not found");
+        }
+
+    }
+
+    @Override
+    public ResponseEntity<Parking> getParkingByBuilding(String building) throws ResourceNotFoundException {
+        return null;
+    }
+
+    @Override
+    public List<Parking> getAllParkings() {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<ParkingLot> getParkingLotById(Long parkingLotId) throws ResourceNotFoundException {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<ParkingLot> getParkingLotByAliasId(String aliasLotId) throws ResourceNotFoundException {
+        return null;
+    }
+
+    @Override
+    public List<ParkingLot> getParkingLotAvailableByBuilding(String building) throws ResourceNotFoundException {
+        return null;
+    }
+
+    @Override
+    public List<ParkingLot> getAllParkingLots() {
+        return parkingLotRepository.findAll();
+    }
+
+    @Override
+    public List<ParkingLot> getAllAvailableParkingLots() {
+        return parkingLotRepository.findAllByAvailableEquals(true);
+    }
+
 }

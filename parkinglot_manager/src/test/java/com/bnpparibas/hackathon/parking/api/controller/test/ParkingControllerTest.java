@@ -136,6 +136,33 @@ public class ParkingControllerTest {
 
 		
 	}
+	
+
+	@Test
+	public void testGetParkingByBuilding() {
+
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(new MockHttpServletRequest()));
+		when(parkingRepository.findByBuilding(eq("Edificio 1"))).thenReturn(parking1);
+		
+		// when...
+		ResponseEntity<Parking> responseEntity;
+		try {
+			responseEntity = parkingController.getParkingByBuilding("Edificio 1");
+		} catch (ResourceNotFoundException e) {
+			fail("Unexpected exception, parking not found.");
+			return;
+		}
+		
+		// then the outcome is validated
+		Parking returnedParking = responseEntity.getBody();
+
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
+		assertThat(returnedParking.getName()).isEqualTo("Edificio 1");
+		assertThat(returnedParking.getId()).isEqualTo(1);
+
+
+	}
+	
 
 	
 	

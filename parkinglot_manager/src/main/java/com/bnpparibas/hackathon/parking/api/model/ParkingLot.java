@@ -19,16 +19,18 @@ public class ParkingLot {
 	private int floor;
 	private int width;
 	private int height;
+	private boolean available;
 	private Parking parking;
 	
 	public ParkingLot() {}
 	
-	public ParkingLot(String aliasLotId, int floor, int width, int height, Parking parking) {
+	public ParkingLot(String aliasLotId, int floor, int width, int height, Parking parking, boolean available) {
 		this.aliasLotId = aliasLotId;
 		this.floor = floor;
 		this.width = width;
 		this.height = height;
 		this.parking = parking;
+		this.available = available;
 	}
 
 	@Id
@@ -83,7 +85,13 @@ public class ParkingLot {
 
 	public void setParking(Parking parking) {
 		this.parking = parking;
-	} 
-	
-	
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
 }
